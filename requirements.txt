@@ -1,0 +1,6 @@
+pandas>=1.5
+numpy>=1.23
+matplotlib>=3.6
+yfinance>=0.2.18
+scikit-learn>=1.2
+pyportfolioopt>=1.5
