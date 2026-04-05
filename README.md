@@ -2,6 +2,8 @@
 
 A portfolio optimization system that compares traditional Markowitz Mean-Variance optimization with ML-enhanced risk estimation. Built with real stock market data, tested with rolling backtests across multiple time periods.
 
+![Portfolio Performance](images/performance.png)
+
 ## What This Project Does
 
 1. Downloads historical stock prices for **18 stocks across 6 sectors** (Tech, Healthcare, Finance, Consumer, Energy, Industrials)
@@ -18,23 +20,39 @@ A portfolio optimization system that compares traditional Markowitz Mean-Varianc
 
 | Strategy | Total Return | Ann. Volatility | Sharpe Ratio | Max Drawdown |
 |---|---|---|---|---|
-| Markowitz (Raw) | varies | high | ~1.5-2.0 | -15% to -30% |
-| Markowitz (Shrinkage) | varies | high | ~1.5-2.0 | -15% to -30% |
-| **Markowitz (ML)** | varies | moderate | ~1.8-2.2 | -10% to -25% |
-| **Equal Weight** | varies | low | ~2.0-2.5 | -8% to -15% |
-| Random Weight | varies | varies | ~1.5-2.5 | varies |
+| Markowitz (Raw) | 36.73% | 15.25% | 2.03 | -9.72% |
+| Markowitz (Shrinkage) | 37.86% | 15.36% | 2.07 | -9.70% |
+| Markowitz (ML) | 11.49% | 13.06% | 0.76 | -7.94% |
+| **Equal Weight** | 27.88% | 13.23% | 1.80 | -9.19% |
+| Random Weight | 24.47% | 12.65% | 1.66 | -9.46% |
 
-*Results vary with market conditions. Run `main.py` or the notebook to get exact numbers.*
+**Key finding:** Shrinkage-based Markowitz achieves the highest Sharpe (2.07), but the ML-adjusted strategy achieves the lowest max drawdown (-7.94%). Simple equal-weight diversification remains competitive — a well-known result in finance called the "1/N puzzle" (DeMiguel et al., 2009).
 
-**Key finding:** The ML-adjusted strategy consistently improves over raw Markowitz (lower drawdowns, better Sharpe), but simple equal-weight diversification is competitive — a well-known result in finance called the "1/N puzzle."
+### Rolling Backtest Results
+
+The single-period test (2023) could be a fluke. Rolling backtests across multiple 6-month windows confirm the pattern:
+
+![Rolling Backtest](images/rolling_backtest.png)
+
+| Strategy | Avg Sharpe | Avg Max Drawdown | Positive Periods |
+|---|---|---|---|
+| Markowitz (Shrinkage) | 0.11 | -22.55% | 3/5 |
+| Markowitz (ML) | -0.01 | -18.29% | 2/5 |
+| **Equal Weight** | 1.23 | -9.87% | 4/5 |
+
+Equal-weight is the most **consistent** performer across market conditions. The Markowitz strategies deliver higher returns in favorable periods but suffer in downturns due to concentration risk.
+
+### Efficient Frontier
+
+![Efficient Frontier](images/efficient_frontier.png)
 
 ## Project Structure
 
 ```
 portfolio-optimization/
-├── data/                          # Downloaded data and saved plots
+├── images/                        # Result plots
 ├── notebooks/
-│   └── portfolio_analysis.ipynb   # Step-by-step walkthrough
+│   └── portfolio_analysis.ipynb   # Step-by-step walkthrough with outputs
 ├── src/
 │   ├── data_loader.py             # Yahoo Finance data download & splitting
 │   ├── feature_engineering.py     # Returns, covariance, ML volatility models
